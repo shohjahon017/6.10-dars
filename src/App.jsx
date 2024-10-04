@@ -9,22 +9,22 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // useEffect(() => {
-  //   if (localStorage.getItem("token")) {
-  //     setToken(localStorage.getItem("token"));
-  //   } else {
-  //     if (!location.pathname.includes("register")) {
-  //       navigate("/login");
-  //     }
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setToken(localStorage.getItem("token"));
+    } else {
+      if (!location.pathname.includes("register")) {
+        navigate("/login");
+      }
+    }
+  }, []);
 
-  // function ProtectedRoute({ isAthenticated, children }) {
-  //   if (!isAthenticated) {
-  //     navigate("/login");
-  //   }
-  //   return children;
-  // }
+  function ProtectedRoute({ isAthenticated, children }) {
+    if (!isAthenticated) {
+      navigate("/login");
+    }
+    return children;
+  }
 
   return (
     <div className="container mx-auto">
@@ -32,9 +32,9 @@ function App() {
         <Route
           path="/"
           element={
-            // <ProtectedRoute isAthenticated={!!token}>
-            <Boards />
-            // </ProtectedRoute>
+            <ProtectedRoute isAthenticated={!!token}>
+              <Boards />
+            </ProtectedRoute>
           }
         />
         <Route path="/login" element={<Login />} />
